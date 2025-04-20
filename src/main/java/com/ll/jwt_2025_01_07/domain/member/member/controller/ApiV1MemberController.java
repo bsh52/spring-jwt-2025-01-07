@@ -20,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ApiV1MemberController {
     private final MemberService memberService;
-    private final AuthTokenService authTokenService;
     private final Rq rq;
 
     record MemberJoinReqBody(
@@ -75,7 +74,7 @@ public class ApiV1MemberController {
         if (!member.matchPassword(reqBody.password))
             throw new ServiceException("401-2", "비밀번호가 일치하지 않습니다.");
 
-        String accessToken = authTokenService.genAccessToken(member);
+        String accessToken = memberService.genAccessToken(member);
 
         return new RsData<>(
                 "200-1",

@@ -1,4 +1,4 @@
-package com.ll.jwt_2025_01_07.post.post.controller;
+package com.ll.jwt_2025_01_07.domain.post.post.controller;
 
 import com.ll.jwt_2025_01_07.domain.post.post.controller.ApiV1PostController;
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;

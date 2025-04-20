@@ -1,4 +1,4 @@
-package com.ll.jwt_2025_01_07.member.member.controller;
+package com.ll.jwt_2025_01_07.domain.member.member.controller;
 
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;

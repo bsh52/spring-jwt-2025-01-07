@@ -1,8 +1,6 @@
-package com.ll.jwt_2025_01_07.member.member.service;
+package com.ll.jwt_2025_01_07.domain.member.member.service;
 
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
-import com.ll.jwt_2025_01_07.domain.member.member.service.AuthTokenService;
-import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.standard.util.Ut;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

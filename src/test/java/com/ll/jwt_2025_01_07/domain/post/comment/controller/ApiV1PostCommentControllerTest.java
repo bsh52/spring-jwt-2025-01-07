@@ -1,4 +1,4 @@
-package com.ll.jwt_2025_01_07.post.comment.controller;
+package com.ll.jwt_2025_01_07.domain.post.comment.controller;
 
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
