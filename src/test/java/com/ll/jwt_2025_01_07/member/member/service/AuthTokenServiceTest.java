@@ -1,6 +1,8 @@
 package com.ll.jwt_2025_01_07.member.member.service;
 
+import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.AuthTokenService;
+import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.standard.util.Ut;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @Transactional
 public class AuthTokenServiceTest {
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private AuthTokenService authTokenService;
 
@@ -69,5 +73,17 @@ public class AuthTokenServiceTest {
         assertThat(jwt).isNotNull();
 
         System.out.println("jwt = " + jwt);
+    }
+
+    @Test
+    @DisplayName("authTokenService.genAccessToken() 으로 JWT 생성")
+    void t4() {
+        Member memberUser1 = memberService.findByUsername("user1").get();
+
+        String accessToken = authTokenService.genAccessToken(memberUser1);
+
+        assertThat(accessToken).isNotNull();
+
+        System.out.println("accessToken = " + accessToken);
     }
 }
