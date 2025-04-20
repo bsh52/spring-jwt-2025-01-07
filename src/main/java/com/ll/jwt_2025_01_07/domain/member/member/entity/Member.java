@@ -35,4 +35,9 @@ public class Member extends BaseTime {
     public boolean matchPassword(String password) {
         return this.password.equals(password);
     }
+
+    public Member(long id, String username) {
+        this.setId(id);
+        this.username = username;
+    }
 }
