@@ -156,7 +156,8 @@ public class ApiV1MemberControllerTest {
                 .andExpect(jsonPath("$.data.item.createDate").value(Matchers.startsWith(member.getCreateDate().toString().substring(0, 25))))
                 .andExpect(jsonPath("$.data.item.modifyDate").value(Matchers.startsWith(member.getModifyDate().toString().substring(0, 25))))
                 .andExpect(jsonPath("$.data.item.nickname").value(member.getNickname()))
-                .andExpect(jsonPath("$.data.apiKey").value(member.getApiKey()));
+                .andExpect(jsonPath("$.data.apiKey").value(member.getApiKey()))
+                .andExpect(jsonPath("$.data.accessToken").exists());
     }
 
     @Test
