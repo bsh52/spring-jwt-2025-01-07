@@ -73,11 +73,19 @@ public class AuthTokenServiceTest {
     @Test
     @DisplayName("Ut.jwt.toString 으로 JWT 생성")
     void t3() {
-        String jwtStr = Ut.jwt.toString(secret, expireSeconds, Map.of("name", "Paul", "age", 23));
+        Map<String, Object> payload = Map.of(
+                "name", "Paul",
+                "age", 23
+        );
+
+        String jwtStr = Ut.jwt.toString(secret, expireSeconds, payload);
 
         assertThat(jwtStr).isNotNull();
-
         assertThat(Ut.jwt.isValid(secret, jwtStr)).isTrue();
+
+        Map<String, Object> parsedPayload = Ut.jwt.payload(secret, jwtStr);
+
+        assertThat(parsedPayload).containsAllEntriesOf(payload);
     }
 
     @Test
