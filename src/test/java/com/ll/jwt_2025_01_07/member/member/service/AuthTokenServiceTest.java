@@ -4,7 +4,6 @@ import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.AuthTokenService;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.standard.util.Ut;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.DisplayName;
@@ -52,21 +51,20 @@ public class AuthTokenServiceTest {
                 "age", 23
         );
 
-        String jwt = Jwts.builder()
+        String jwtStr = Jwts.builder()
                 .claims(payload)
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(secretKey)
                 .compact();
 
-        assertThat(jwt).isNotNull();
+        assertThat(jwtStr).isNotNull();
 
-        Jwt<?, ?> jwtParser = Jwts.parser()
+        Map<String, Object> parsedPayload = (Map<String, Object>) Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
-                .parse(jwt);
-
-        Map<String, Object> parsedPayload = (Map<String, Object>) jwtParser.getPayload();
+                .parse(jwtStr)
+                .getPayload();
 
         assertThat(parsedPayload)
                 .containsAllEntriesOf(payload);
@@ -75,11 +73,11 @@ public class AuthTokenServiceTest {
     @Test
     @DisplayName("Ut.jwt.toString 으로 JWT 생성")
     void t3() {
-        String jwt = Ut.jwt.toString(secret, expireSeconds, Map.of("name", "Paul", "age", 23));
+        String jwtStr = Ut.jwt.toString(secret, expireSeconds, Map.of("name", "Paul", "age", 23));
 
-        assertThat(jwt).isNotNull();
+        assertThat(jwtStr).isNotNull();
 
-        System.out.println("jwt = " + jwt);
+        assertThat(Ut.jwt.isValid(secret, jwtStr)).isTrue();
     }
 
     @Test
