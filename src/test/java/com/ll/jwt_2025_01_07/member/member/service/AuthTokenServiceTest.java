@@ -4,6 +4,7 @@ import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.AuthTokenService;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.standard.util.Ut;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
@@ -44,15 +45,15 @@ public class AuthTokenServiceTest {
         Date issuedAt = new Date();
         Date expiration = new Date(issuedAt.getTime() + 100L * expireSeconds);
 
-        Key secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+
+        Map<String, Object> payload = Map.of(
+                "name", "Paul",
+                "age", 23
+        );
 
         String jwt = Jwts.builder()
-                .claims(
-                        Map.of(
-                                "name", "Paul",
-                                "age", 23
-                        )
-                )
+                .claims(payload)
                 .issuedAt(issuedAt)
                 .expiration(expiration)
                 .signWith(secretKey)
@@ -60,7 +61,15 @@ public class AuthTokenServiceTest {
 
         assertThat(jwt).isNotNull();
 
-        System.out.println("jwt = " + jwt);
+        Jwt<?, ?> jwtParser = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parse(jwt);
+
+        Map<String, Object> parsedPayload = (Map<String, Object>) jwtParser.getPayload();
+
+        assertThat(parsedPayload)
+                .containsAllEntriesOf(payload);
     }
 
     @Test
