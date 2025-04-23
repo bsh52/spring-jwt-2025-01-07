@@ -2,7 +2,6 @@ package com.ll.jwt_2025_01_07.domain.member.member.controller;
 
 import com.ll.jwt_2025_01_07.domain.member.member.dto.MemberDto;
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
-import com.ll.jwt_2025_01_07.domain.member.member.service.AuthTokenService;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.global.exceptions.ServiceException;
 import com.ll.jwt_2025_01_07.global.rq.Rq;
@@ -12,8 +11,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -90,18 +87,9 @@ public class ApiV1MemberController {
     @GetMapping("/me")
     @Transactional(readOnly = true)
     public MemberDto me() {
-        Member member = rq.getActor();
+        Member actor = rq.getActor();
+        Member member = memberService.findById(actor.getId()).get();
 
         return new MemberDto(member);
-    }
-
-    // 테스트용, 임시 함수
-    // 이 함수가 실행되려면 로그인이 되어있어야 한다.
-    // 로그인이 잘 되었는지 확인하기 위해서 `SELECT * FROM MEMBER WHERE API_KEY = '로그인시_받은_API_KEY';` 가 수행된다.
-    // 그런데 여기서는 회원정보를 활용하지 않는다.
-    // 로그인 되었는지 확인하기 위해서  `SELECT * FROM MEMBER WHERE API_KEY = '로그인시_받은_API_KEY';` 가 수행되는 것은 살짝 무겁다는 생각이 든다.
-    @GetMapping("/userKey1")
-    public String userKey1() {
-        return UUID.randomUUID().toString();
     }
 }
