@@ -27,7 +27,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     private AuthTokens getAuthTokensFromRequest() {
         String authorization = rq.getHeader("Authorization");
 
-        if (authorization != null && !authorization.startsWith("Bearer ")) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
             String token = authorization.substring("Bearer ".length());
             String[] tokenBits = token.split(" ", 2);
 
@@ -74,7 +74,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (List.of("/api/v1/member/login", "/api/v1/member/logout", "/api/v1/member/join").contains(request.getRequestURI())) {
+        if (List.of("/api/v1/members/login", "/api/v1/members/logout", "/api/v1/members/join").contains(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -98,8 +98,6 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
         if (member != null) {
             rq.setLogin(member);
         }
-
-        rq.setLogin(member);
 
         filterChain.doFilter(request, response);
     }
