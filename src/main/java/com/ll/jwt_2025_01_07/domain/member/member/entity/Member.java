@@ -54,7 +54,7 @@ public class Member extends BaseTime {
                 .toList();
     }
 
-    private List<String> getAuthoritiesAsStringList() {
+    public List<String> getAuthoritiesAsStringList() {
         List<String> authorities = new ArrayList<>();
 
         if (isAdmin()) {
