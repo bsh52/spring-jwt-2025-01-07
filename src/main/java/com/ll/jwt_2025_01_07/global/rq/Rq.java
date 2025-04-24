@@ -46,15 +46,14 @@ public class Rq {
 
     public Member getActor() {
         return Optional.ofNullable(
-                        SecurityContextHolder.getContext()
+                        SecurityContextHolder
+                                .getContext()
                                 .getAuthentication()
                 )
                 .map(Authentication::getPrincipal)
                 .filter(principal -> principal instanceof SecurityUser)
                 .map(principal -> (SecurityUser) principal)
-                .map(securityUser -> {
-                    return new Member(securityUser.getId(), securityUser.getUsername());
-                })
+                .map(securityUser -> new Member(securityUser.getId(), securityUser.getUsername()))
                 .orElse(null);
     }
 
