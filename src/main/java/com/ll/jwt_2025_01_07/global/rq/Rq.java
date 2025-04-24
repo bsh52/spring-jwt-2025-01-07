@@ -87,4 +87,8 @@ public class Rq {
     public void setHeader(String name, String value) {
         response.setHeader(name, value);
     }
+
+    public String getHeader(String name) {
+        return response.getHeader(name);
+    }
 }
