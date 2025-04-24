@@ -26,7 +26,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/*/members/login", "/api/*/members/join")
                                 .permitAll()
-                                .requestMatchers("api/*/posts/statistics")
+                                .requestMatchers("/api/*/posts/statistics")
                                 .hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
@@ -60,6 +60,7 @@ public class SecurityConfig {
                                 .accessDeniedHandler(
                                         (request, response, accessDeniedException) -> {
                                             response.setContentType("application/json;charset=UTF-8");
+
                                             response.setStatus(403);
                                             response.getWriter().write(
                                                     Ut.json.toString(
