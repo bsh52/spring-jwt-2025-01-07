@@ -21,7 +21,8 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     private final MemberService memberService;
     private final Rq rq;
 
-    record AuthTokens(String apiKey, String accessToken) {}
+    record AuthTokens(String apiKey, String accessToken) {
+    }
 
     private AuthTokens getAuthTokensFromRequest() {
         String authorization = rq.getHeader("Authorization");
@@ -73,7 +74,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (List.of("/api/v1/member/login", "/api/v1/member/logout", "/api/v1/member/join").contains(request.getRequestURI()) {{
+        if (List.of("/api/v1/member/login", "/api/v1/member/logout", "/api/v1/member/join").contains(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             return;
         }
