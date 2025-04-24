@@ -3,6 +3,8 @@ package com.ll.jwt_2025_01_07.global.rq;
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.global.security.SecurityUser;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 // Request/Response 를 추상화한 객체
@@ -21,6 +24,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class Rq {
+    private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final MemberService memberService;
 
@@ -67,5 +71,20 @@ public class Rq {
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    public String getCookieValue(String name) {
+        return Optional
+                .ofNullable(request.getCookies())
+                .stream()
+                .flatMap(Arrays::stream)
+                .filter(cookie -> cookie.getName().equals(name))
+                .map(Cookie::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void setHeader(String name, String value) {
+        response.setHeader(name, value);
     }
 }
