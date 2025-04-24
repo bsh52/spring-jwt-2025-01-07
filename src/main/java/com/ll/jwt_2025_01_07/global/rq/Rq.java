@@ -3,7 +3,6 @@ package com.ll.jwt_2025_01_07.global.rq;
 import com.ll.jwt_2025_01_07.domain.member.member.entity.Member;
 import com.ll.jwt_2025_01_07.domain.member.member.service.MemberService;
 import com.ll.jwt_2025_01_07.global.security.SecurityUser;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,6 @@ public class Rq {
     private final HttpServletResponse response;
     private final MemberService memberService;
 
-    // 스프링 시큐리티가 이해하는 방식으로 강제 로그인 처리
-    // 임시함수
     public void setLogin(Member member) {
         UserDetails user = new SecurityUser(
                 member.getId(),
@@ -77,9 +74,9 @@ public class Rq {
         return Optional
                 .ofNullable(request.getCookies())
                 .stream()
-                .flatMap(Arrays::stream)
+                .flatMap(cookies -> Arrays.stream(cookies))
                 .filter(cookie -> cookie.getName().equals(name))
-                .map(Cookie::getValue)
+                .map(cookie -> cookie.getValue())
                 .findFirst()
                 .orElse(null);
     }
